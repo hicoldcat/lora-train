@@ -34,10 +34,10 @@ $cn_source = $args[0]
 if($cn_source -eq "true"){
     Write-Output "使用国内加速安装程序所需依赖"
 
-    pip install torch==2.0.0+cu118 torchvision==0.15.1+cu118 -f https://mirror.sjtu.edu.cn/pytorch-wheels/torch_stable.html -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+    pip install torch==2.0.0+cu118 torchvision==0.15.1+cu118 -f https://mirror.sjtu.edu.cn/pytorch-wheels/torch_stable.html -i https://mirrors.bfsu.edu.cn/pypi/web/simple --progress-bar=on
     Check "torch 安装失败，请删除 venv 文件夹后重新运行。"
 
-    pip install -U -I --no-deps xformers==0.0.19 -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+    pip install -U -I --no-deps xformers==0.0.19 -i https://mirrors.bfsu.edu.cn/pypi/web/simple --progress-bar=on
     Check "xformers 安装失败。"
 
     pip install --upgrade -r requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
@@ -55,10 +55,10 @@ if($cn_source -eq "true"){
 }else {
     Write-Output "安装程序所需依赖"
 
-    pip install torch==2.0.0+cu118 torchvision==0.15.1+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+    pip install torch==2.0.0+cu118 torchvision==0.15.1+cu118 --extra-index-url https://download.pytorch.org/whl/cu118 --progress-bar=on
     Check "torch 安装失败，请删除 venv 文件夹后重新运行。"
     
-    pip install --upgrade xformers==0.0.19
+    pip install --upgrade xformers==0.0.19 --progress-bar=on
     Check "xformers 安装失败。"
 
     pip install --upgrade -r requirements.txt
@@ -81,5 +81,5 @@ cp .\bitsandbytes_windows\cextension.py ..\venv\Lib\site-packages\bitsandbytes\c
 cp .\bitsandbytes_windows\main.py ..\venv\Lib\site-packages\bitsandbytes\cuda_setup\main.py
 
 Write-Output "安装完毕"
+return
 Read-Host | Out-Null ;
-Exit

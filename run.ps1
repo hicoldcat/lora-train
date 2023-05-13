@@ -30,10 +30,6 @@ python -m accelerate.commands.launch --num_cpu_threads_per_process=8 "./sd-scrip
   --sample_prompts=$sample_prompts `
   $ext_args
 
-Write-Output "Train finished"
+Write-Output "ÑµÁ·½áÊø"
+return
 Read-Host | Out-Null ;
-Exit;
-
-# $config_file = $args[0]	
-# Write-Host "config_file: $config_file"
-# Exit;
