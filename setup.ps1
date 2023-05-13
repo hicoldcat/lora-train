@@ -1,8 +1,9 @@
+$Env:HF_HOME = "huggingface"
 $Env:PIP_DISABLE_PIP_VERSION_CHECK = 1
 $Env:PIP_NO_CACHE_DIR = 1
 
 function InstallFail {
-    Write-Host "å®‰è£…å¤±è´¥" -ForegroundColor red
+    Write-Output "°²×°Ê§°Ü¡£"
     Read-Host | Out-Null ;
     Exit
 }
@@ -12,72 +13,73 @@ function Check {
         $ErrorInfo
     )
     if (!($?)) {
-        Write-Host $ErrorInfo -ForegroundColor red
+        Write-Output $ErrorInfo
         InstallFail
     }
 }
 
 if (!(Test-Path -Path "venv")) {
-    Write-Host "æ­£åœ¨åˆ›å»ºè™šæ‹Ÿç¯å¢ƒ..." -ForegroundColor blue
-    # TODO:ä½¿ç”¨å†…ç½®py310çš„python
+    Write-Output "ÕıÔÚ´´½¨ĞéÄâ»·¾³..."
     python -m venv venv
-    Check "åˆ›å»ºè™šæ‹Ÿç¯å¢ƒå¤±è´¥ï¼Œè¯·æ£€æŸ¥ python æ˜¯å¦å®‰è£…å®Œæ¯•ä»¥åŠ python ç‰ˆæœ¬æ˜¯å¦ä¸º64ä½ç‰ˆæœ¬çš„python 3.10ã€æˆ–pythonçš„ç›®å½•æ˜¯å¦åœ¨ç¯å¢ƒå˜é‡PATHå†…ã€‚"
+    Check "´´½¨ĞéÄâ»·¾³Ê§°Ü£¬Çë¼ì²é python ÊÇ·ñ°²×°Íê±ÏÒÔ¼° python °æ±¾ÊÇ·ñÎª64Î»°æ±¾µÄpython 3.10¡¢»òpythonµÄÄ¿Â¼ÊÇ·ñÔÚ»·¾³±äÁ¿PATHÄÚ¡£"
 }
 
 .\venv\Scripts\activate
-Check "æ¿€æ´»è™šæ‹Ÿç¯å¢ƒå¤±è´¥ã€‚"
+Check "¼¤»îĞéÄâ»·¾³Ê§°Ü¡£"
 
 Set-Location .\sd-scripts
 
 $cn_source = $args[0]
-if($cn_source -eq "true" -or $cn_source -eq true){
-    Write-Output "ä½¿ç”¨å›½å†…åŠ é€Ÿå®‰è£…ç¨‹åºæ‰€éœ€ä¾èµ–"
+
+if($cn_source -eq "true"){
+    Write-Output "Ê¹ÓÃ¹úÄÚ¼ÓËÙ°²×°³ÌĞòËùĞèÒÀÀµ"
 
     pip install torch==2.0.0+cu118 torchvision==0.15.1+cu118 -f https://mirror.sjtu.edu.cn/pytorch-wheels/torch_stable.html -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "torch å®‰è£…å¤±è´¥ï¼Œè¯·åˆ é™¤ venv æ–‡ä»¶å¤¹åé‡æ–°è¿è¡Œã€‚"
+    Check "torch °²×°Ê§°Ü£¬ÇëÉ¾³ı venv ÎÄ¼ş¼ĞºóÖØĞÂÔËĞĞ¡£"
 
     pip install -U -I --no-deps xformers==0.0.19 -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "xformers å®‰è£…å¤±è´¥ã€‚"
+    Check "xformers °²×°Ê§°Ü¡£"
 
     pip install --upgrade -r requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "å…¶ä»–ä¾èµ–å®‰è£…å¤±è´¥ã€‚"
+    Check "ÆäËûÒÀÀµ°²×°Ê§°Ü¡£"
 
     pip install --upgrade lion-pytorch dadaptation -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "Lionã€dadaptation ä¼˜åŒ–å™¨å®‰è£…å¤±è´¥ã€‚"
+    Check "Lion¡¢dadaptation ÓÅ»¯Æ÷°²×°Ê§°Ü¡£"
 
     pip install --upgrade lycoris-lora -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "lycoris å®‰è£…å¤±è´¥ã€‚"
+    Check "lycoris °²×°Ê§°Ü¡£"
 
     pip install --upgrade wandb -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "wandb å®‰è£…å¤±è´¥ã€‚"
+    Check "wandb °²×°Ê§°Ü¡£"
 
 }else {
-    Write-Output "å®‰è£…ç¨‹åºæ‰€éœ€ä¾èµ–"
+    Write-Output "°²×°³ÌĞòËùĞèÒÀÀµ"
 
     pip install torch==2.0.0+cu118 torchvision==0.15.1+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
-    Check "torch å®‰è£…å¤±è´¥ï¼Œè¯·åˆ é™¤ venv æ–‡ä»¶å¤¹åé‡æ–°è¿è¡Œã€‚"
+    Check "torch °²×°Ê§°Ü£¬ÇëÉ¾³ı venv ÎÄ¼ş¼ĞºóÖØĞÂÔËĞĞ¡£"
     
     pip install --upgrade xformers==0.0.19
-    Check "xformers å®‰è£…å¤±è´¥ã€‚"
+    Check "xformers °²×°Ê§°Ü¡£"
 
     pip install --upgrade -r requirements.txt
-    Check "å…¶ä»–ä¾èµ–å®‰è£…å¤±è´¥ã€‚"
+    Check "ÆäËûÒÀÀµ°²×°Ê§°Ü¡£"
 
     pip install --upgrade lion-pytorch dadaptation
-    Check "Lionã€dadaptation ä¼˜åŒ–å™¨å®‰è£…å¤±è´¥ã€‚"
+    Check "Lion¡¢dadaptation ÓÅ»¯Æ÷°²×°Ê§°Ü¡£"
 
     pip install --upgrade lycoris-lora
-    Check "lycoris å®‰è£…å¤±è´¥ã€‚"
+    Check "lycoris °²×°Ê§°Ü¡£"
 
     pip install --upgrade wandb
-    Check "wandb å®‰è£…å¤±è´¥ã€‚"
+    Check "wandb °²×°Ê§°Ü¡£"
 }
 
-Write-Host "å®‰è£… bitsandbytes..."  -ForegroundColor blue
+Write-Output "°²×° bitsandbytes..."
+
 cp .\bitsandbytes_windows\*.dll ..\venv\Lib\site-packages\bitsandbytes\
 cp .\bitsandbytes_windows\cextension.py ..\venv\Lib\site-packages\bitsandbytes\cextension.py
 cp .\bitsandbytes_windows\main.py ..\venv\Lib\site-packages\bitsandbytes\cuda_setup\main.py
 
-Write-Output "å®‰è£…å®Œæ¯•" -ForegroundColor green
+Write-Output "°²×°Íê±Ï"
 Read-Host | Out-Null ;
 Exit
