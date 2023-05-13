@@ -18,3 +18,5 @@ sd-models/*
 tests/
 
 huggingface/hub/models--openai--clip-vit-large-patch14
+
+Development.md
