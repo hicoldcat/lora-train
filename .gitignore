@@ -17,6 +17,14 @@ sd-models/*
 
 tests/
 
-huggingface/hub/models--openai--clip-vit-large-patch14
+huggingface/hub/
 
 Development.md
+
+
+__pycache__
+train_tools/__pycache__/
+*.ckpt
+*.safetensors
+*.pth
+*.pt
