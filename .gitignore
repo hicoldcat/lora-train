@@ -23,7 +23,7 @@ Development.md
 
 
 __pycache__
-train_tools/__pycache__/
+preprocess_tools/__pycache__/
 *.ckpt
 *.safetensors
 *.pth
