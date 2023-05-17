@@ -6,7 +6,7 @@ source venv/bin/activate
 
 $cn_source = $1
 
-cd ./sd-scripts
+# cd ./sd-scripts
 
 if [ -n "$cn_source" ]; then
     echo "安装 torch & xformers..."
@@ -14,7 +14,13 @@ if [ -n "$cn_source" ]; then
     pip install xformers==0.0.19  --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 
     echo "安装依赖..."
-    pip install --upgrade -r requirements.txt  --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+    pip install --upgrade -r ./sd-scripts/requirements.txt  --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+
+    pip install --upgrade -r ./preprocess_tools/requirements.txt --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+    pip install --upgrade -r ./preprocess_tools/repositories/BLIP/requirements.txt --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple 
+    pip install --upgrade -r ./preprocess_tools/repositories/k-diffusion/requirements.txt --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+    pip install --upgrade -r ./preprocess_tools/repositories/stable-diffusion-stability-ai/requirements.txt --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+
     pip install --upgrade lion-pytorch lycoris-lora dadaptation wandb  --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 else
     echo "安装 torch & xformers..."
@@ -22,7 +28,13 @@ else
     pip install xformers==0.0.19
 
     echo "安装依赖..."
-    pip install --upgrade -r requirements.txt
+    pip install --upgrade -r./sd-scripts/requirements.txt
+
+    pip install --upgrade -r ./preprocess_tools/requirements.txt
+    pip install --upgrade -r ./preprocess_tools/repositories/BLIP/requirements.txt 
+    pip install --upgrade -r ./preprocess_tools/repositories/k-diffusion/requirements.txt
+    pip install --upgrade -r ./preprocess_tools/repositories/stable-diffusion-stability-ai/requirements.txt
+
     pip install --upgrade lion-pytorch lycoris-lora dadaptation wandb
 
     

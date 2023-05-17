@@ -2,6 +2,11 @@ $Env:HF_HOME = "huggingface"
 $Env:PIP_DISABLE_PIP_VERSION_CHECK = 1
 $Env:PIP_NO_CACHE_DIR = 1
 
+[CmdletBinding()]
+Param (
+  [String]$CNSOURCE
+)
+
 function InstallFail {
     Write-Output "安装失败。"
     Read-Host | Out-Null ;
@@ -27,11 +32,8 @@ if (!(Test-Path -Path "venv")) {
 .\venv\Scripts\activate
 Check "激活虚拟环境失败。"
 
-Set-Location .\sd-scripts
 
-$cn_source = $args[0]
-
-if($cn_source -eq "true"){
+if($CNSOURCE -eq "true"){
     Write-Output "使用国内加速安装程序所需依赖"
 
     pip install torch==2.0.0+cu118 torchvision==0.15.1+cu118 -f https://mirror.sjtu.edu.cn/pytorch-wheels/torch_stable.html -i https://mirrors.bfsu.edu.cn/pypi/web/simple --progress-bar=on
@@ -40,17 +42,23 @@ if($cn_source -eq "true"){
     pip install -U -I --no-deps xformers==0.0.19 -i https://mirrors.bfsu.edu.cn/pypi/web/simple --progress-bar=on
     Check "xformers 安装失败。"
 
-    pip install --upgrade -r requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "其他依赖安装失败。"
+    pip install --upgrade -r .\sd-scripts\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+    Check "sd-scripts依赖安装失败。"
 
-    pip install --upgrade lion-pytorch dadaptation -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "Lion、dadaptation 优化器安装失败。"
+    pip install --upgrade -r .\preprocess_tools\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+    Check "数据集预处理依赖安装失败。"
 
-    pip install --upgrade lycoris-lora -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "lycoris 安装失败。"
+    pip install --upgrade -r .\preprocess_tools\repositories\BLIP\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+    Check "BLIP依赖安装失败。"
 
-    pip install --upgrade wandb -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "wandb 安装失败。"
+    pip install --upgrade -r .\preprocess_tools\repositories\k-diffusion\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+    Check "k-diffusion依赖安装失败。"
+
+    pip install --upgrade -r .\preprocess_tools\repositories\stable-diffusion-stability-ai\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+    Check "stable-diffusion-stability-ai依赖安装失败。"
+
+    pip install --upgrade lion-pytorch dadaptation lycoris-lora wandb -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+    Check "Lion、dadaptation 优化器、lycoris、wandb安装失败。"
 
 }else {
     Write-Output "安装程序所需依赖"
@@ -61,17 +69,23 @@ if($cn_source -eq "true"){
     pip install --upgrade xformers==0.0.19 --progress-bar=on
     Check "xformers 安装失败。"
 
-    pip install --upgrade -r requirements.txt
-    Check "其他依赖安装失败。"
+    pip install --upgrade -r .\sd-scripts\requirements.txt
+    Check "sd-scripts依赖安装失败。"
 
-    pip install --upgrade lion-pytorch dadaptation
-    Check "Lion、dadaptation 优化器安装失败。"
+    pip install --upgrade -r .\preprocess_tools\requirements.txt 
+    Check "数据集预处理依赖安装失败。"
 
-    pip install --upgrade lycoris-lora
-    Check "lycoris 安装失败。"
+    pip install --upgrade -r .\preprocess_tools\repositories\BLIP\requirements.txt 
+    Check "BLIP依赖安装失败。"
 
-    pip install --upgrade wandb
-    Check "wandb 安装失败。"
+    pip install --upgrade -r .\preprocess_tools\repositories\k-diffusion\requirements.txt 
+    Check "k-diffusion依赖安装失败。"
+
+    pip install --upgrade -r .\preprocess_tools\repositories\stable-diffusion-stability-ai\requirements.txt 
+    Check "stable-diffusion-stability-ai依赖安装失败。"
+
+    pip install --upgrade lion-pytorch dadaptation lycoris-lora wandb 
+    Check "Lion、dadaptation 优化器、lycoris、wandb安装失败。"
 }
 
 Write-Output "安装 bitsandbytes..."

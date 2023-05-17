@@ -15,4 +15,4 @@
 # pip install --upgrade -r .\preprocess_tools\repositories\k-diffusion\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
 # pip install --upgrade -r .\preprocess_tools\repositories\stable-diffusion-stability-ai\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
 
-python .\preprocess_tools\dataset.py
+python .\preprocess_tools\dataset_preprocess.py
