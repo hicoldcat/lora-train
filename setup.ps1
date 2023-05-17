@@ -1,16 +1,19 @@
-$Env:HF_HOME = "huggingface"
-$Env:PIP_DISABLE_PIP_VERSION_CHECK = 1
-$Env:PIP_NO_CACHE_DIR = 1
 
 [CmdletBinding()]
 Param (
   [String]$CNSOURCE
 )
 
+$Env:HF_HOME = "huggingface"
+$Env:PIP_DISABLE_PIP_VERSION_CHECK = 1
+$Env:PIP_NO_CACHE_DIR = 1
+
+
 function InstallFail {
     Write-Output "安装失败。"
+    return
     Read-Host | Out-Null ;
-    Exit
+    # Exit
 }
 
 function Check {
@@ -42,20 +45,15 @@ if($CNSOURCE -eq "true"){
     pip install -U -I --no-deps xformers==0.0.19 -i https://mirrors.bfsu.edu.cn/pypi/web/simple --progress-bar=on
     Check "xformers 安装失败。"
 
-    pip install --upgrade -r .\sd-scripts\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "sd-scripts依赖安装失败。"
+    Set-Location .\preprocess_tools
 
-    pip install --upgrade -r .\preprocess_tools\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+    pip install --upgrade -r requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
     Check "数据集预处理依赖安装失败。"
 
-    pip install --upgrade -r .\preprocess_tools\repositories\BLIP\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "BLIP依赖安装失败。"
-
-    pip install --upgrade -r .\preprocess_tools\repositories\k-diffusion\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "k-diffusion依赖安装失败。"
-
-    pip install --upgrade -r .\preprocess_tools\repositories\stable-diffusion-stability-ai\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-    Check "stable-diffusion-stability-ai依赖安装失败。"
+    Set-Location ..\sd-scripts
+   
+    pip install --upgrade -r requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+    Check "sd-scripts依赖安装失败。"
 
     pip install --upgrade lion-pytorch dadaptation lycoris-lora wandb -i https://mirrors.bfsu.edu.cn/pypi/web/simple
     Check "Lion、dadaptation 优化器、lycoris、wandb安装失败。"
@@ -69,20 +67,15 @@ if($CNSOURCE -eq "true"){
     pip install --upgrade xformers==0.0.19 --progress-bar=on
     Check "xformers 安装失败。"
 
-    pip install --upgrade -r .\sd-scripts\requirements.txt
-    Check "sd-scripts依赖安装失败。"
+    Set-Location .\preprocess_tools
 
-    pip install --upgrade -r .\preprocess_tools\requirements.txt 
+    pip install --upgrade -r requirements.txt 
     Check "数据集预处理依赖安装失败。"
 
-    pip install --upgrade -r .\preprocess_tools\repositories\BLIP\requirements.txt 
-    Check "BLIP依赖安装失败。"
+    Set-Location ..\sd-scripts
 
-    pip install --upgrade -r .\preprocess_tools\repositories\k-diffusion\requirements.txt 
-    Check "k-diffusion依赖安装失败。"
-
-    pip install --upgrade -r .\preprocess_tools\repositories\stable-diffusion-stability-ai\requirements.txt 
-    Check "stable-diffusion-stability-ai依赖安装失败。"
+    pip install --upgrade -r requirements.txt
+    Check "sd-scripts依赖安装失败。"
 
     pip install --upgrade lion-pytorch dadaptation lycoris-lora wandb 
     Check "Lion、dadaptation 优化器、lycoris、wandb安装失败。"

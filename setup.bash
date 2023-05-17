@@ -14,13 +14,14 @@ if [ -n "$cn_source" ]; then
     pip install xformers==0.0.19  --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 
     echo "安装依赖..."
-    pip install --upgrade -r ./sd-scripts/requirements.txt  --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+    
+    cd ./preprocess_tools
 
-    pip install --upgrade -r ./preprocess_tools/requirements.txt --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
-    pip install --upgrade -r ./preprocess_tools/repositories/BLIP/requirements.txt --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple 
-    pip install --upgrade -r ./preprocess_tools/repositories/k-diffusion/requirements.txt --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
-    pip install --upgrade -r ./preprocess_tools/repositories/stable-diffusion-stability-ai/requirements.txt --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+    pip install --upgrade -r requirements.txt --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 
+    cd ../sd-scripts
+
+    pip install --upgrade -r requirements.txt  --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
     pip install --upgrade lion-pytorch lycoris-lora dadaptation wandb  --extra-index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 else
     echo "安装 torch & xformers..."
@@ -28,13 +29,13 @@ else
     pip install xformers==0.0.19
 
     echo "安装依赖..."
-    pip install --upgrade -r./sd-scripts/requirements.txt
 
-    pip install --upgrade -r ./preprocess_tools/requirements.txt
-    pip install --upgrade -r ./preprocess_tools/repositories/BLIP/requirements.txt 
-    pip install --upgrade -r ./preprocess_tools/repositories/k-diffusion/requirements.txt
-    pip install --upgrade -r ./preprocess_tools/repositories/stable-diffusion-stability-ai/requirements.txt
+    cd ./preprocess_tools
+    pip install --upgrade -r requirements.txt
 
+    cd ../sd-scripts
+
+    pip install --upgrade -r requirements.txt
     pip install --upgrade lion-pytorch lycoris-lora dadaptation wandb
 
     
