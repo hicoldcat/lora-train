@@ -1,18 +1,78 @@
 
-# [CmdletBinding()]
-# Param (
-#   [String]$LocalHost,
-#   [Int32]$LocalPort
-# )
+[CmdletBinding()]
+Param (
+  [Parameter(Mandatory = $true)]
+  [string]$src,
+  [Parameter(Mandatory = $true)]
+  [string]$dst,
+  [int]$width = 512,
+  [int]$height = 512,
+  [string]$txtAction = 'ignore',
+  [bool]$keepOriginalSize,
+  [bool]$flip,
+  [bool]$split,
+  [bool]$caption,
+  [bool]$captionDeepbooru,
+  [int]$splitThreshold = 0.5,
+  [int]$overlapRatio = 0.2,
+  [bool]$focalCrop,
+  [int]$focalCropFaceWeight = 1,
+  [int]$focalCropEntropyWeight = 0,
+  [int]$focalCropEdgesWeight = 0,
+  [bool]$focalCropDebug,
+  [bool]$multicrop,
+  [int]$multicropMindim = 384,
+  [int]$multicropMaxdim = 768,
+  [int]$multicropMinarea = 4096,
+  [int]$multicropMaxarea = 409600,
+  [string]$multicropObjective = 'Maximize area',
+  [int]$multicropThreshold = 0.1
+)
 
 .\venv\Scripts\activate
 
-# pip install torch==2.0.0+cu118 torchvision==0.15.1+cu118 -f https://mirror.sjtu.edu.cn/pytorch-wheels/torch_stable.html -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-# pip install -U -I --no-deps xformers==0.0.19 -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-# pip install --upgrade -r .\preprocess_tools\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-# pip install --upgrade -r .\preprocess_tools\repositories\BLIP\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-# pip install --upgrade -r .\preprocess_tools\repositories\CodeFormer\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-# pip install --upgrade -r .\preprocess_tools\repositories\k-diffusion\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
-# pip install --upgrade -r .\preprocess_tools\repositories\stable-diffusion-stability-ai\requirements.txt -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+$launch_bool_args = [System.Collections.ArrayList]::new()
 
-python .\preprocess_tools\dataset_preprocess.py
+if ($keepOriginalSize) {
+  [void]$launch_bool_args.Add("--preprocess-keepOriginalSize")
+}
+if ($flip) {
+  [void]$launch_bool_args.Add("--preprocess-flip")
+}
+if ($split) {
+  [void]$launch_bool_args.Add("--preprocess-split")
+}
+if ($caption) {
+  [void]$launch_bool_args.Add("--preprocess-caption")
+}
+if ($captionDeepbooru) {
+  [void]$launch_bool_args.Add("--preprocess-captionDeepbooru")
+}
+if ($focalCrop) {
+  [void]$launch_bool_args.Add("--preprocess-focalCrop")
+}
+if ($focalCropDebug) {
+  [void]$launch_bool_args.Add("--preprocess-focalCropDebug")
+}
+
+if ($multicrop) {
+  [void]$launch_bool_args.Add("--preprocess-multicrop")
+}
+
+python ".\preprocess_tools\dataset_preprocess.py" --preprocess-src=$src `
+    --preprocess-dst=$dst `
+    --preprocess-width=$width `
+    --preprocess-height=$height `
+    --preprocess-txtAction=$txtAction `
+    --preprocess-splitThreshold=$splitThreshold `
+    --preprocess-overlapRatio=$overlapRatio `
+    --preprocess-focalCropFaceWeight=$focalCropFaceWeight `
+    --preprocess-focalCropEntropyWeight=$focalCropEntropyWeight `
+    --preprocess-focalCropEdgesWeight=$focalCropEdgesWeight `
+    --preprocess-multicropMindim=$multicropMindim `
+    --preprocess-multicropMaxdim=$multicropMaxdim `
+    --preprocess-multicropMinarea=$multicropMinarea `
+    --preprocess-multicropMaxarea=$multicropMaxarea `
+    --preprocess-multicropObjective=$multicropObjective `
+    --preprocess-multicropThreshold=$multicropThreshold `
+    $launch_bool_args
