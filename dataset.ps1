@@ -13,12 +13,12 @@ Param (
   [bool]$split,
   [bool]$caption,
   [bool]$captionDeepbooru,
-  [int]$splitThreshold = 0.5,
-  [int]$overlapRatio = 0.2,
+  [float]$splitThreshold = 0.5,
+  [float]$overlapRatio = 0.2,
   [bool]$focalCrop,
-  [int]$focalCropFaceWeight = 1,
-  [int]$focalCropEntropyWeight = 0,
-  [int]$focalCropEdgesWeight = 0,
+  [float]$focalCropFaceWeight = 0.9,
+  [float]$focalCropEntropyWeight = 0.15,
+  [float]$focalCropEdgesWeight = 0.5,
   [bool]$focalCropDebug,
   [bool]$multicrop,
   [int]$multicropMindim = 384,
@@ -26,7 +26,7 @@ Param (
   [int]$multicropMinarea = 4096,
   [int]$multicropMaxarea = 409600,
   [string]$multicropObjective = 'Maximize area',
-  [int]$multicropThreshold = 0.1
+  [float]$multicropThreshold = 0.1
 )
 
 .\venv\Scripts\activate
