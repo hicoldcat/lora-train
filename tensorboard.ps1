@@ -13,7 +13,6 @@ $Env:TF_CPP_MIN_LOG_LEVEL = "3"
 # python -m tensorboard.main --logdir=$logdir --port=$port
 # python .\diagnose_tensorboard.py
 
-
 $pythonProcess = Start-Process -FilePath python -ArgumentList "-m", "tensorboard.main", "--logdir=$logdir", "--port=$port" -NoNewWindow -PassThru 
 
 $pythonPid = $pythonProcess.Id
