@@ -59,24 +59,20 @@ if ($multicrop) {
   [void]$launch_bool_args.Add("--preprocess-multicrop")
 }
 
-$pythonProcess = Start-Process -FilePath python -ArgumentList ".\preprocess_tools\dataset_preprocess.py" "--preprocess-src=$src" `
-    "--preprocess-dst=$dst" `
-    "--preprocess-width=$width" `
-    "--preprocess-height=$height" `
-    "--preprocess-txtAction=$txtAction" `
-    "--preprocess-splitThreshold=$splitThreshold" `
-    "--preprocess-overlapRatio=$overlapRatio" `
-    "--preprocess-focalCropFaceWeight=$focalCropFaceWeight" `
-    "--preprocess-focalCropEntropyWeight=$focalCropEntropyWeight" `
-    "--preprocess-focalCropEdgesWeight=$focalCropEdgesWeight" `
-    "--preprocess-multicropMindim=$multicropMindim" `
-    "--preprocess-multicropMaxdim=$multicropMaxdim" `
-    "--preprocess-multicropMinarea=$multicropMinarea" `
-    "--preprocess-multicropMaxarea=$multicropMaxarea" `
-    "--preprocess-multicropObjective=$multicropObjective" `
-    "--preprocess-multicropThreshold=$multicropThreshold" `
-    $launch_bool_args -NoNewWindow -PassThru 
-
-$pythonPid = $pythonProcess.Id
-
-Write-Host "Python-Process-ID=$pythonPid"
+python ".\preprocess_tools\dataset_preprocess.py" --preprocess-src=$src `
+    --preprocess-dst=$dst `
+    --preprocess-width=$width `
+    --preprocess-height=$height `
+    --preprocess-txtAction=$txtAction `
+    --preprocess-splitThreshold=$splitThreshold `
+    --preprocess-overlapRatio=$overlapRatio `
+    --preprocess-focalCropFaceWeight=$focalCropFaceWeight `
+    --preprocess-focalCropEntropyWeight=$focalCropEntropyWeight `
+    --preprocess-focalCropEdgesWeight=$focalCropEdgesWeight `
+    --preprocess-multicropMindim=$multicropMindim `
+    --preprocess-multicropMaxdim=$multicropMaxdim `
+    --preprocess-multicropMinarea=$multicropMinarea `
+    --preprocess-multicropMaxarea=$multicropMaxarea `
+    --preprocess-multicropObjective=$multicropObjective `
+    --preprocess-multicropThreshold=$multicropThreshold `
+    $launch_bool_args
