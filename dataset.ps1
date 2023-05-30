@@ -28,7 +28,7 @@ param (
 
 function ProcessFail {
   param (
-      $ErrorInfo
+    $ErrorInfo
   )
   Write-Output $ErrorInfo
   Read-Host | Out-Null ;
@@ -68,26 +68,56 @@ if ($multicrop) {
 
 Write-Output "开始图片处理..."
 
-try {
-  python ".\preprocess_tools\dataset_preprocess.py" --preprocess-src=$src `
-    --preprocess-dst=$dst `
-    --preprocess-width=$width `
-    --preprocess-height=$height `
-    --preprocess-txtAction=$txtAction `
-    --preprocess-splitThreshold=$splitThreshold `
-    --preprocess-overlapRatio=$overlapRatio `
-    --preprocess-focalCropFaceWeight=$focalCropFaceWeight `
-    --preprocess-focalCropEntropyWeight=$focalCropEntropyWeight `
-    --preprocess-focalCropEdgesWeight=$focalCropEdgesWeight `
-    --preprocess-multicropMindim=$multicropMindim `
-    --preprocess-multicropMaxdim=$multicropMaxdim `
-    --preprocess-multicropMinarea=$multicropMinarea `
-    --preprocess-multicropMaxarea=$multicropMaxarea `
-    --preprocess-multicropObjective=$multicropObjective `
-    --preprocess-multicropThreshold=$multicropThreshold `
-    $launch_bool_args
-} catch {
+# try {
+#   python ".\preprocess_tools\dataset_preprocess.py" --preprocess-src=$src `
+#     --preprocess-dst=$dst `
+#     --preprocess-width=$width `
+#     --preprocess-height=$height `
+#     --preprocess-txtAction=$txtAction `
+#     --preprocess-splitThreshold=$splitThreshold `
+#     --preprocess-overlapRatio=$overlapRatio `
+#     --preprocess-focalCropFaceWeight=$focalCropFaceWeight `
+#     --preprocess-focalCropEntropyWeight=$focalCropEntropyWeight `
+#     --preprocess-focalCropEdgesWeight=$focalCropEdgesWeight `
+#     --preprocess-multicropMindim=$multicropMindim `
+#     --preprocess-multicropMaxdim=$multicropMaxdim `
+#     --preprocess-multicropMinarea=$multicropMinarea `
+#     --preprocess-multicropMaxarea=$multicropMaxarea `
+#     --preprocess-multicropObjective=$multicropObjective `
+#     --preprocess-multicropThreshold=$multicropThreshold `
+#     $launch_bool_args
+# } catch {
+#   ProcessFail "图片处理失败"
+# }
+
+$bool_args = $launch_bool_args -join " "
+
+try{
+  $pythonProcess = Start-Process -FilePath python -ArgumentList ".\preprocess_tools\dataset_preprocess.py", "--preprocess-src=$src", `
+    "--preprocess-dst=$dst", `
+    "--preprocess-width=$width", `
+    "--preprocess-height=$height", `
+    "--preprocess-txtAction=$txtAction", `
+    "--preprocess-splitThreshold=$splitThreshold", `
+    "--preprocess-overlapRatio=$overlapRatio", `
+    "--preprocess-focalCropFaceWeight=$focalCropFaceWeight", `
+    "--preprocess-focalCropEntropyWeight=$focalCropEntropyWeight", `
+    "--preprocess-focalCropEdgesWeight=$focalCropEdgesWeight", `
+    "--preprocess-multicropMindim=$multicropMindim", `
+    "--preprocess-multicropMaxdim=$multicropMaxdim", `
+    "--preprocess-multicropMinarea=$multicropMinarea", `
+    "--preprocess-multicropMaxarea=$multicropMaxarea", `
+    "--preprocess-multicropObjective=$multicropObjective", `
+    "--preprocess-multicropThreshold=$multicropThreshold", `
+    "$bool_args"  -NoNewWindow -PassThru -Wait
+
+  $pythonProcess.WaitForExit()
+
+  if($pythonProcess.ExitCode -eq 0) {
+    Write-Output "图片处理完成"
+  } else {
+    ProcessFail "图片处理失败"
+  }
+} catch{
   ProcessFail "图片处理失败"
 }
-
-Write-Output "图片处理完成"
