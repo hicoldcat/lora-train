@@ -1,4 +1,4 @@
-# é€šè¿‡Start-Processæ‰§è¡Œ
+# Í¨¹ıStart-ProcessÖ´ĞĞ
 param (
   [string]$config_file,
   [int]$num_cpu_threads_per_process = 1,
@@ -22,18 +22,18 @@ if ($utf8 -eq 1) {
   $Env:PYTHONUTF8 = 1
 }
 
-Write-Output "å¼€å§‹è®­ç»ƒæ¨¡å‹..."
+Write-Output "¿ªÊ¼ÑµÁ·Ä£ĞÍ..."
 
 try{
   $pythonProcess = Start-Process -FilePath python -ArgumentList "-m", "accelerate.commands.launch", "--num_cpu_threads_per_process=$num_cpu_threads_per_process", "./sd-scripts/train_network.py", "--config_file=$config_file" -NoNewWindow -PassThru -Wait
   $pythonProcess.WaitForExit()
 
   if($pythonProcess.ExitCode -eq 0) {
-    # è¿›ç¨‹æ­£å¸¸é€€å‡º
-    Write-Output "è®­ç»ƒæ¨¡å‹å®Œæˆ"
+    # ½ø³ÌÕı³£ÍË³ö
+    Write-Output "ÑµÁ·Ä£ĞÍÍê³É"
   } else {
-    ProcessFail "è®­ç»ƒå¤±è´¥"
+    ProcessFail "ÑµÁ·Ê§°Ü"
   }
 } catch{
-  ProcessFail "è®­ç»ƒå¤±è´¥"
+  ProcessFail "ÑµÁ·Ê§°Ü"
 }

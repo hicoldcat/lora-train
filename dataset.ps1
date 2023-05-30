@@ -1,4 +1,4 @@
-# é€šè¿‡Start-Processæ‰§è¡Œ
+# Í¨¹ıStart-ProcessÖ´ĞĞ
 param (
   [string]$src,
   [string]$dst,
@@ -66,7 +66,7 @@ if ($multicrop) {
   [void]$launch_bool_args.Add("--preprocess-multicrop")
 }
 
-Write-Output "å¼€å§‹å›¾ç‰‡å¤„ç†..."
+Write-Output "¿ªÊ¼Í¼Æ¬´¦Àí..."
 
 # try {
 #   python ".\preprocess_tools\dataset_preprocess.py" --preprocess-src=$src `
@@ -87,7 +87,7 @@ Write-Output "å¼€å§‹å›¾ç‰‡å¤„ç†..."
 #     --preprocess-multicropThreshold=$multicropThreshold `
 #     $launch_bool_args
 # } catch {
-#   ProcessFail "å›¾ç‰‡å¤„ç†å¤±è´¥"
+#   ProcessFail "Í¼Æ¬´¦ÀíÊ§°Ü"
 # }
 
 $bool_args = $launch_bool_args -join " "
@@ -114,10 +114,10 @@ try{
   $pythonProcess.WaitForExit()
 
   if($pythonProcess.ExitCode -eq 0) {
-    Write-Output "å›¾ç‰‡å¤„ç†å®Œæˆ"
+    Write-Output "Í¼Æ¬´¦ÀíÍê³É"
   } else {
-    ProcessFail "å›¾ç‰‡å¤„ç†å¤±è´¥"
+    ProcessFail "Í¼Æ¬´¦ÀíÊ§°Ü"
   }
 } catch{
-  ProcessFail "å›¾ç‰‡å¤„ç†å¤±è´¥"
+  ProcessFail "Í¼Æ¬´¦ÀíÊ§°Ü"
 }

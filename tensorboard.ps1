@@ -17,12 +17,12 @@ $Env:XFORMERS_FORCE_DISABLE_TRITON = "1"
 
 # python .\diagnose_tensorboard.py
 
-Write-Output "æ­£åœ¨ http://localhost:${port} ä¸Šå¯åŠ¨Tensorboard..."
+Write-Output "ÕıÔÚ http://localhost:${port} ÉÏÆô¶¯Tensorboard..."
 
 try{
   python -m tensorboard.main --logdir=$logdir --port=$port
 } catch {
-  ProcessFail "Tensorboardå¯åŠ¨å¤±è´¥"
+  ProcessFail "TensorboardÆô¶¯Ê§°Ü"
 }
 
-Write-Output "Tensorboardå·²å¯åŠ¨"
+Write-Output "TensorboardÒÑÆô¶¯"
