@@ -13,9 +13,12 @@ function ProcessFail {
 
 .\venv\Scripts\activate
 
+$Env:XFORMERS_FORCE_DISABLE_TRITON = "1"
+
 # python .\diagnose_tensorboard.py
 
 Write-Output "正在 http://localhost:${port} 上启动Tensorboard..."
+
 try{
   python -m tensorboard.main --logdir=$logdir --port=$port
 } catch {

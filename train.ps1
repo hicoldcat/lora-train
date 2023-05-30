@@ -16,6 +16,7 @@ function ProcessFail {
 .\venv\Scripts\activate
 
 $Env:HF_HOME = "huggingface"
+$Env:XFORMERS_FORCE_DISABLE_TRITON = "1"
 
 if ($utf8 -eq 1) {
   $Env:PYTHONUTF8 = 1

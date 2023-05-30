@@ -36,6 +36,8 @@ function ProcessFail {
 
 .\venv\Scripts\activate
 
+$Env:XFORMERS_FORCE_DISABLE_TRITON = "1"
+
 $launch_bool_args = [System.Collections.ArrayList]::new()
 
 if ($keepOriginalSize) {
