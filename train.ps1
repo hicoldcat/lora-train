@@ -1,13 +1,17 @@
-
-[CmdletBinding()]
-Param (
-  [Parameter(Mandatory = $true)]
+# 通过Start-Process执行
+param (
   [string]$config_file,
   [int]$num_cpu_threads_per_process = 1,
   [int]$utf8 = 1
 )
 
-$pythonProcess = $null
+function ProcessFail {
+  param (
+      $ErrorInfo
+  )
+  Write-Output $ErrorInfo
+  Read-Host | Out-Null ;
+}
 
 .\venv\Scripts\activate
 
@@ -17,10 +21,12 @@ if ($utf8 -eq 1) {
   $Env:PYTHONUTF8 = 1
 }
 
-# python -m accelerate.commands.launch --num_cpu_threads_per_process=$num_cpu_threads_per_process "./sd-scripts/train_network.py" --config_file=$config_file
+Write-Output "开始训练模型..."
 
-$pythonProcess = Start-Process -FilePath python -ArgumentList "-m", "accelerate.commands.launch", "--num_cpu_threads_per_process=$num_cpu_threads_per_process", "./sd-scripts/train_network.py", "--config_file=$config_file" -NoNewWindow -PassThru 
+try{
+  python -m accelerate.commands.launch --num_cpu_threads_per_process=$num_cpu_threads_per_process "./sd-scripts/train_network.py" --config_file=$config_file
+} catch{
+  ProcessFail "训练失败"
+}
 
-$pythonPid = $pythonProcess.Id
-
-Write-Host "Python-Process-ID=$pythonPid"
+Write-Output "训练模型完成"

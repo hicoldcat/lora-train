@@ -1,26 +1,23 @@
-
-[CmdletBinding()]
-Param (
-  [Parameter(Mandatory = $true)]
+# 通过Start-Process执行
+param (
   [string]$src,
-  [Parameter(Mandatory = $true)]
   [string]$dst,
   [int]$width = 512,
   [int]$height = 512,
   [string]$txtAction = 'ignore',
-  [bool]$keepOriginalSize,
-  [bool]$flip,
-  [bool]$split,
-  [bool]$caption,
-  [bool]$captionDeepbooru,
+  [string]$keepOriginalSize,
+  [string]$flip,
+  [string]$split,
+  [string]$caption,
+  [string]$captionDeepbooru,
   [float]$splitThreshold = 0.5,
   [float]$overlapRatio = 0.2,
-  [bool]$focalCrop,
+  [string]$focalCrop,
   [float]$focalCropFaceWeight = 0.9,
   [float]$focalCropEntropyWeight = 0.15,
   [float]$focalCropEdgesWeight = 0.5,
-  [bool]$focalCropDebug,
-  [bool]$multicrop,
+  [string]$focalCropDebug,
+  [string]$multicrop,
   [int]$multicropMindim = 384,
   [int]$multicropMaxdim = 768,
   [int]$multicropMinarea = 4096,
@@ -28,6 +25,14 @@ Param (
   [string]$multicropObjective = 'Maximize area',
   [float]$multicropThreshold = 0.1
 )
+
+function ProcessFail {
+  param (
+      $ErrorInfo
+  )
+  Write-Output $ErrorInfo
+  Read-Host | Out-Null ;
+}
 
 .\venv\Scripts\activate
 
@@ -59,7 +64,10 @@ if ($multicrop) {
   [void]$launch_bool_args.Add("--preprocess-multicrop")
 }
 
-python ".\preprocess_tools\dataset_preprocess.py" --preprocess-src=$src `
+Write-Output "开始图片处理..."
+
+try {
+  python ".\preprocess_tools\dataset_preprocess.py" --preprocess-src=$src `
     --preprocess-dst=$dst `
     --preprocess-width=$width `
     --preprocess-height=$height `
@@ -76,3 +84,8 @@ python ".\preprocess_tools\dataset_preprocess.py" --preprocess-src=$src `
     --preprocess-multicropObjective=$multicropObjective `
     --preprocess-multicropThreshold=$multicropThreshold `
     $launch_bool_args
+} catch {
+  ProcessFail "图片处理失败"
+}
+
+Write-Output "图片处理完成"

@@ -1,4 +1,4 @@
-
+# 通过./执行
 [CmdletBinding()]
 Param (
   [String]$CNSOURCE
@@ -13,7 +13,6 @@ function InstallFail {
     Write-Output "安装失败。"
     return
     Read-Host | Out-Null ;
-    # Exit
 }
 
 function Check {
@@ -58,9 +57,6 @@ if($CNSOURCE -eq "true"){
     pip install --upgrade lion-pytorch dadaptation lycoris-lora wandb -i https://mirrors.bfsu.edu.cn/pypi/web/simple
     Check "Lion、dadaptation 优化器、lycoris、wandb安装失败。"
 
-    # pip uninstall -y tb-nightly tensorboard tensorflow tensorflow-estimator
-    # pip install tensorflow==2.10.1 -i https://mirrors.bfsu.edu.cn/pypi/web/simple # or `tensorflow-gpu`, or `tf-nightly`, ...
-
 }else {
     Write-Output "安装程序所需依赖"
 
@@ -82,9 +78,6 @@ if($CNSOURCE -eq "true"){
 
     pip install --upgrade lion-pytorch dadaptation lycoris-lora wandb 
     Check "Lion、dadaptation 优化器、lycoris、wandb安装失败。"
-
-    # pip uninstall -y tb-nightly tensorboard tensorflow tensorflow-estimator
-    # pip install tensorflow==2.10.1 # or `tensorflow-gpu`, or `tf-nightly`, ...
 }
 
 Write-Output "安装 bitsandbytes..."
@@ -94,5 +87,4 @@ cp .\bitsandbytes_windows\cextension.py ..\venv\Lib\site-packages\bitsandbytes\c
 cp .\bitsandbytes_windows\main.py ..\venv\Lib\site-packages\bitsandbytes\cuda_setup\main.py
 
 Write-Output "安装完毕"
-return
 Read-Host | Out-Null ;
