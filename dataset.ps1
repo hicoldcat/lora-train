@@ -40,33 +40,31 @@ $Env:XFORMERS_FORCE_DISABLE_TRITON = "1"
 
 $launch_bool_args = [System.Collections.ArrayList]::new()
 
-if ($keepOriginalSize) {
+if ($keepOriginalSize -eq "1") {
   [void]$launch_bool_args.Add("--preprocess-keepOriginalSize")
 }
-if ($flip) {
+if ($flip -eq "1") {
   [void]$launch_bool_args.Add("--preprocess-flip")
 }
-if ($split) {
+if ($split -eq "1") {
   [void]$launch_bool_args.Add("--preprocess-split")
 }
-if ($caption) {
+if ($caption -eq "1") {
   [void]$launch_bool_args.Add("--preprocess-caption")
 }
-if ($captionDeepbooru) {
+if ($captionDeepbooru -eq "1") {
   [void]$launch_bool_args.Add("--preprocess-captionDeepbooru")
 }
-if ($focalCrop) {
+if ($focalCrop -eq "1") {
   [void]$launch_bool_args.Add("--preprocess-focalCrop")
 }
-if ($focalCropDebug) {
+if ($focalCropDebug -eq "1") {
   [void]$launch_bool_args.Add("--preprocess-focalCropDebug")
 }
 
-if ($multicrop) {
+if ($multicrop -eq "1") {
   [void]$launch_bool_args.Add("--preprocess-multicrop")
 }
-
-Write-Output "开始图片处理..."
 
 # try {
 #   python ".\preprocess_tools\dataset_preprocess.py" --preprocess-src=$src `
@@ -91,6 +89,26 @@ Write-Output "开始图片处理..."
 # }
 
 $bool_args = $launch_bool_args -join " "
+
+Write-Output "运行参数：" "--preprocess-src=$src", `
+    "--preprocess-dst=$dst", `
+    "--preprocess-width=$width", `
+    "--preprocess-height=$height", `
+    "--preprocess-txtAction=$txtAction", `
+    "--preprocess-splitThreshold=$splitThreshold", `
+    "--preprocess-overlapRatio=$overlapRatio", `
+    "--preprocess-focalCropFaceWeight=$focalCropFaceWeight", `
+    "--preprocess-focalCropEntropyWeight=$focalCropEntropyWeight", `
+    "--preprocess-focalCropEdgesWeight=$focalCropEdgesWeight", `
+    "--preprocess-multicropMindim=$multicropMindim", `
+    "--preprocess-multicropMaxdim=$multicropMaxdim", `
+    "--preprocess-multicropMinarea=$multicropMinarea", `
+    "--preprocess-multicropMaxarea=$multicropMaxarea", `
+    "--preprocess-multicropObjective=$multicropObjective", `
+    "--preprocess-multicropThreshold=$multicropThreshold", `
+    "$bool_args"  "-NoNewWindow" "-PassThru" "-Wait"
+
+Write-Output "开始图片处理..."
 
 try{
   $pythonProcess = Start-Process -FilePath python -ArgumentList ".\preprocess_tools\dataset_preprocess.py", "--preprocess-src=$src", `

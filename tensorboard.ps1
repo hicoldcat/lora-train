@@ -36,11 +36,7 @@ function ProcessStart {
   try{
     $pythonProcess = Start-Process -FilePath python -ArgumentList "-m", "tensorboard.main", "--logdir=$logdir", "--port=$port" -NoNewWindow -PassThru -Wait
     $pythonProcess.WaitForExit()
-
-    if($pythonProcess.ExitCode -eq 0) {
-      Write-Output "Tensorboard“—æ≠∆Ù∂Ø"
-      Read-Host | Out-Null ;
-    } else {
+    if($pythonProcess.ExitCode -ne 0) {
       FixTensorboardConflicting
     }
   } catch{
