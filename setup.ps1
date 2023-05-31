@@ -87,4 +87,3 @@ cp .\bitsandbytes_windows\cextension.py ..\venv\Lib\site-packages\bitsandbytes\c
 cp .\bitsandbytes_windows\main.py ..\venv\Lib\site-packages\bitsandbytes\cuda_setup\main.py
 
 Write-Output "°²×°Íê±Ï"
-Read-Host | Out-Null ;
